@@ -1,0 +1,44 @@
+This problem may seem tricky based on the image provided in the problem statement, but one observation will fix this.
+
+n = number of coral
+x = max amount of water we can use
+
+We store the heights of the coral into vector a.
+
+The key step is to sort this array.
+
+Why? Because sorting the array will make the heights non decreasing, meaning when adding water, it is easy to track how much water is used for every extra 1 unit of height.
+
+
+used = amount of water we have used
+ind = which coral we are on (0 is the first one, n-1 is the last one); this can be thought of as the "width" of the water because all corals from 0 to ind are submerged or equal to water level
+h = the height of water we are currently at; this will be our answer
+
+The approach is as following:
+
+Can we fill up water up to the height of the next coral?
+
+If yes, do that, and go to the next coral and repeat
+If no, add as much water as you can before you surpass x.
+
+We loop from the first coral (the shortest one) until the second to last one.
+We stop at the second to last one because we will fill up to the level of the last coral (if possible) and from this point on the remaining water is easily to calculate.
+
+We start with h = a[0], which means we start with a water height at the level of the first (shortest) coral because we know no water will be used to reach this level.
+
+
+******* 
+NOTE
+since ind is zero-indexed, I use ind+1 to represent the number of submerged corals
+*******
+
+So for each coral we will:
+
+add = the different between the next coral's height and the current coral's height (a[ind+1]-a[ind]) multiplied by how many corals we are at to see how much water is needed to fill the water up to the next coral
+
+1. calculate add
+2. check if used + add > x; this checks whether or not we have enough spare water to fill up to the next coral
+3. if true, it means we don't have enough water to fill fully to the next coral, so we fill as many levels as we can by taking the remaining water (x - used) and divide by the width of water (number of corals; ind), and since we have no water left, this is our answer
+4. if false, it means we have enough water to fill fully to the next coral, so we do that and increase the width of water, then we repeat until we run out of water or we submerge all the corals
+
+If all the corals are submerged and there is water remaining, we are just fill the whole width of the tank (n corals). To calculate how much additional water height we can fill, we divide the remaining water (x - used) by the width (n) and add that to h, giving us our answer.
