@@ -1,0 +1,9 @@
+This problem is very simple.
+
+You want to start a subsequence any time you see a B because you want to maximize the amount of erasing potential.
+
+Every time you see a B:
+    add 1 to moves
+    add k-1 to i (the for loop will add 1 after the current iteration ends to make k)
+
+print moves
