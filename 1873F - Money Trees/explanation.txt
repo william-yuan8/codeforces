@@ -1,0 +1,44 @@
+We read the data into vectors a & b.
+Vector a stores the heights of the trees.
+Vector b stores the number of fruits in each tree.
+
+To solve this problem, we use the sliding window technique to find the longest
+subarray that meets the conditions specified in the problem.
+
+We first need to instantiate the variables:
+
+l (index of the start of the subarary we are currently tracking)
+r (index of the end of the subarray we are tracking)
+tmp (the number of fruits that in the current subarray of trees)
+ans (the longest subarray that satisfies the conditions)
+
+First, we check whether or not a subarray of one exists (the number of fruits
+in one tree is less than equal to k)
+
+Then, we set tmp to the number of fruits in the first tree, because we are
+starting at l+1, and l starts at 0.
+
+Then we proceed with the sliding window.
+
+As long as a[r-1] is divisible by a[r], we check if adding the fruits from that tree is <= k.
+If it is, we add it to tmp and update ans.
+If adding the fruits from tree r would put us over the limit, k, or if a[r-1] is not divisible by a[r], we exit the loop.
+
+Right after we exit, we need to check if r == n to prevent out of bounds errors.
+
+Then we have an if statement to determine one of two cases:
+1. We stopped the loop because a[r-1] is not divisible by a[r].
+2. We stopped the loop because adding the fruits of tree r would put us over
+the limit, k.
+
+We check for case 1 because if we don't, r will never increment. If case 1 is true, it means that the subarray [l, r] was valid (tmp <= k), but we cannot make it any longer because it fails to meet the divisibility condition. Because the longest subarray is already recorded, we set l of the new subarray to r, and r to l+1. We also set tmp to # of fruits of tree l. This mirrors our initial setup where l=0.
+
+We check case 2 so we know that the divisibility condition still holds, but the number of fruits exceed the limit k. This means we can slide our window by getting rid of tree l, and seeing if that allows us to go further.
+
+Example:
+
+Subarray [l, r] is valid, and a[r] is divisible by a[r+1] but adding b[r+1] would mean tmp >= k.
+So we get rid of the first tree (tree l) by incrementing l by 1 and subtracting b[l] from tmp.
+The new subarray is [l+1, r] and now could possibly continue expand rightwards.
+
+After r reaches n, we will have stored the maximum valid subarray in ans so we just print ans.
