@@ -5,7 +5,7 @@ using namespace std;
 typedef long long ll;
 
 void solve() {
-	int n, x;
+    int n, x;
     cin >> n >> x;
  
     vector<ll> a(n);
